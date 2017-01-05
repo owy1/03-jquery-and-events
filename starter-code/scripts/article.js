@@ -1,4 +1,5 @@
 var allArticles = [];
+var sourceData;
 
 function Article (opts) {
   this.author = opts.author;

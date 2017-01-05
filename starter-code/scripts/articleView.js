@@ -1,11 +1,11 @@
 //  Configure a view object, to hold all our functions for dynamic updates and article-related event handlers.
 var articleView = {};
-
-
+//HTML <option> tag defines an option in a selected list
 articleView.populateFilters = function() {
   $('article').not('.template').each(function() {
     var authorName, category, optionTag;
-    authorName = $(this).find('address a').text();
+    // authorName = $(this).find('address a').text();
+    authorName = $(this).attr('data-author');
     optionTag = '<option value="' + authorName + '">' + authorName + '</option>';
     $('#author-filter').append(optionTag);
     category = $(this).attr('data-category');
@@ -71,11 +71,18 @@ articleView.setTeasers = function() {
   // Truncate logic to show only first two elements within the article body.
   $('.article-body *:nth-of-type(n+2)').hide();
   $('#articles').on('click', '.read-on', function(event) {
-    console.log('hello');
     event.preventDefault();
     $(this).parent().find('*').show();
-    $(this).hide();
-  })
+    // $(this).hide();
+    $(this).removeClass('read-on').addClass('read-less');
+    $(this).html('Show less &rarr;');
+  });
+  $('#articles').on('click', '.read-less', function(event) {
+    event.preventDefault();
+    $('.article-body *:nth-of-type(n+2)').hide();
+    $(this).removeClass('read-less').addClass('read-on');
+    $(this).html('Read on &rarr;');
+  });
   /* TODO: Add a delegated event handler to reveal the remaining paragraphs.
     When a .read-on link is clicked, we can:
     1. Prevent the default action of a link.
